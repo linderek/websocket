@@ -1,68 +1,80 @@
-import React, { useEffect, useState } from 'react';
-
-function WebSocketComponent() {
-  const [message, setMessage] = useState('');
-  const [name, setName] = useState('');
-  const [serverMessage, setServerMessage] = useState([]);
-  const [ws, setWs] = useState(null);
-  useEffect(() => {
-    // 建立 WebSocket 連接
-    const ws = new WebSocket('ws://localhost:8080');
-    // 當 WebSocket 連接成功時觸發
-    ws.onopen = () => {
-      console.log('WebSocket 連接成功');
-      setWs(ws);
-    };
-
-    // 當從服務器收到消息時觸發
-    ws.onmessage = (event) => {
-      console.log('lineAt 20 收到服務器消息:', event.data);
-      const temp=[...serverMessage,event.data]
-      setServerMessage(temp)
-      console.log('lineAt 24',serverMessage );
-    };
-
-    // 當 WebSocket 連接關閉時觸發
-    ws.onclose = () => {
-      console.log('WebSocket 連接關閉');
-    };
-
-    // 當 WebSocket 出現錯誤時觸發
-    ws.onerror = (error) => {
-      console.error('WebSocket 錯誤:', error);
-    };
-
-    // 在組件卸載時關閉 WebSocket 連接
-    return () => {
-      ws.close();
-    };
-  }, [serverMessage]);
-
-
-  // 發送消息到服務器
-  const sendMessage = () => {
-    console.log(name+':'+message);
-    ws.send(name+':'+message);
-  };
-
+import React, { useState } from "react";
+import { Select } from "antd";
+import { Bubble, Sender } from "@ant-design/x";
+import Component from "./App2.tsx";
+import App3 from "./App3.tsx";
+import App4 from "./App4.tsx";
+import App5 from "./App5.tsx";
+import App6 from "./App6.tsx";
+import App7 from "./App7.tsx";
+import App8 from "./App8.tsx";
+import App9 from "./App9.tsx";
+import App10 from "./App10.tsx";
+import App11 from "./App11.tsx";
+const App = () => {
+  const [example, setXxample] = useState("8");
+  function detail(example) {
+    switch (example) {
+      case "1":
+        return <Component />;
+        <div>
+          <Bubble content="Hello world!" />
+          AAAA
+          <Sender></Sender>
+        </div>;
+      case "2":
+        return <Component />;
+      case "3":
+        return <App3 />;
+      case "4":
+        return <App4 />;
+      case "5":
+        return <App5 />;
+      case "6":
+        return <App6 />;
+      case "7":
+        return <App7 />;
+      case "8":
+        return <App8 />;
+      case "9":
+        return <App9 />;
+      case "10":
+        return <App10 />;
+      case "11":
+        return <App11 />;
+      default:
+        return undefined;
+    }
+  }
   return (
-    <div>
-      <h1>WebSocket 測試</h1>
+    <div className="App">
       <div>
-      <span>名稱</span>：<input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}></input>
-        </div>
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}></input>&nbsp;
-      <button  onClick={sendMessage}>發送消息</button>
-      <div>聊天記錄</div>
-      {serverMessage?.map((item,idx)=>(<div key={idx}>{item}</div>))}
+        <Select
+          value={example}
+          style={{ width: "100px" }}
+          onChange={(e) => {
+            setXxample(e);
+          }}
+          options={[
+            /*
+            { label: "app1", value: "1" },
+            { label: "app2", value: "2" },
+            { label: "app3", value: "3" },
+            { label: "app4", value: "4" },
+            { label: "app5", value: "5" },
+            { label: "app6", value: "6" },
+            { label: "app7", value: "7" },
+             */
+            { label: "app8", value: "8" },
+            { label: "app9", value: "9" },
+            { label: "app10", value: "10" },
+            { label: "app11", value: "11" },
+          ]}
+        ></Select>
+      </div>
+      <div>{detail(example)}</div>
     </div>
   );
-}
+};
 
-export default WebSocketComponent;
+export default App;
